@@ -1,0 +1,28 @@
+services:
+  api:
+    build: .
+    container_name: urlshortener-api
+    depends_on:
+      - database
+    ports:
+      - '8080:8080'
+    environment:
+      POSTGRES_URL: ${POSTGRES_URL}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - public-network
+
+  database:
+    image: postgres
+    container_name: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - public-network
+
+networks:
+  public-network:
+    driver: bridge
